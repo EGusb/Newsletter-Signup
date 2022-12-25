@@ -10,7 +10,7 @@ body {
   color: #f1f3f4;
   background-color: #1d1d1d;
 
-  background-image: url("images/earth-full.png");
+  background-image: url("../images/earth-full.png");
   background-repeat: no-repeat;
   background-position: center center;
 }

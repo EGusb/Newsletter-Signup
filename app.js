@@ -6,6 +6,11 @@ const bodyParser = require("body-parser");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true })); // Required to parse requests
+app.use(express.static("static"));
+
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/signup.html");
+});
 
 const port = 3000;
 app.listen(port, function () {
