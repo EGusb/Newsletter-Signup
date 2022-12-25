@@ -12,6 +12,15 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/signup.html");
 });
 
+app.post("/", function (req, res) {
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var email = req.body.email;
+
+  res.send(`<h1>Thanks for suscribing, ${firstName}!</h1>
+  <p>Every week we'll send our news to: ${email}!</p>`);
+});
+
 const port = 3000;
 app.listen(port, function () {
   console.log(`Server started on port ${port}`);
