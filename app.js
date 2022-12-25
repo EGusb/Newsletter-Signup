@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const request = require("request");
+const https = require("https");
 const express = require("express");
 const bodyParser = require("body-parser");
 
