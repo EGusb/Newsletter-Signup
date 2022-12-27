@@ -16,13 +16,12 @@ app.post("/", function (req, res) {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const email = req.body.email;
+  
   const listID = process.env.EMAIL_LIST_ID;
   const apiKey = process.env.EMAIL_API_KEY;
-
   const rootURL = process.env.EMAIL_ROOT_URL;
   const path = `/lists/${listID}/members/${email}`;
   const finalURL = rootURL + path;
-  console.log(finalURL);
 
   const options = {
     method: "PUT",
