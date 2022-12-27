@@ -13,35 +13,51 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-  var firstName = req.body.firstName;
-  var lastName = req.body.lastName;
-  var email = req.body.email;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const email = req.body.email;
+  const listID = process.env.EMAIL_LIST_ID;
+  const apiKey = process.env.EMAIL_API_KEY;
 
-  const client = require(process.env.EMAIL_ROOT_URL);
+  const rootURL = process.env.EMAIL_ROOT_URL;
+  const path = `/lists/${listID}/members/${email}`;
+  const finalURL = rootURL + path;
+  console.log(finalURL);
 
-  client.setConfig({
-    apiKey: process.env.EMAIL_API_KEY,
-    server: process.env.EMAIL_SERVER_ID,
-  });
-
-  const runApiCall = async () => {
-    const response = await client.lists.addListMember(
-      process.env.EMAIL_LIST_ID,
-      {
-        email_address: email,
-        status: "subscribed",
-        merge_fields: {
-          FNAME: firstName,
-          LNAME: lastName,
-        },
-      }
-    );
+  const options = {
+    method: "PUT",
+    auth: `myApiBot:${apiKey}`,
   };
 
-  runApiCall();
-});
+  const body = {
+    email_address: email,
+    status_if_new: "subscribed",
+    status: "subscribed",
+    merge_fields: {
+      FNAME: firstName,
+      LNAME: lastName,
+    },
+  };
 
-const test = process.env.EMAIL_API_KEY;
+  const request = https.request(finalURL, options, function (response) {
+    response
+      .on("data", function (data) {
+        console.log(JSON.parse(data));
+      })
+      .on("error", (e) => {
+        console.error(e);
+      });
+
+    if (response.statusCode === 200) {
+      res.sendFile(__dirname + "/success.html");
+    } else {
+      res.sendFile(__dirname + "/failure.html");
+    }
+  });
+
+  request.write(JSON.stringify(body));
+  request.end();
+});
 
 const port = 3000;
 app.listen(port, function () {
