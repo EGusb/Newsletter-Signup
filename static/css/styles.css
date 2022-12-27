@@ -1,6 +1,7 @@
 html,
 body {
   height: 100%;
+  text-align: center;
 }
 
 body {
@@ -55,4 +56,10 @@ body {
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+.centered-element {
+  max-width: 40%;
+  margin: 5% auto;
+  padding: 10px;
 }
